@@ -24,6 +24,14 @@ const armors = [
       inPossession: true,
    },
    {
+      name: "breastplate v1",
+      description: "armor",
+      damageReduction: 0,
+      armorClass: 5,
+      apRegen: 0,
+      inPossession: true,
+   },
+   {
       name: "platemail",
       description: "platemail armor",
       damageReduction: 2,
