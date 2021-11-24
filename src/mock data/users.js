@@ -10,44 +10,63 @@ const users = [
             image: "hero-female.jpg",
             hp: 12, //hit points
             ap: 6, //action points
-            ac: 8, // to hit roll needs to equal this or higher to deal damage.
-            str: 2, // attack dmg
-            dex: 1, // attack accuracy
-            end: 2, // reduces enemy dmg, improves hp
-            mnd: 1, // improves ap
-            agi: 3, // improves AC/attack avoiding
-            spr: 2, // 'Luck', improves crit
+
+            pwr: 3, // damage mod (incoming and outgoing)
+            lck: 2, // 'Luck', crit (outgoing) and dodge (incoming)
             actions: [
                // allows for different moves
 
-               { description: "stabs", damage: 0, apCost: 2 },
-               { description: "slashes", damage: 1, apCost: 3 },
-               { description: "defends", damage: 0, apCost: -2 },
-            ],
-            weapons: [
-               // modifies attacks (will be locked to single basic non-modifying for v.1)
                {
-                  name: "sword",
-                  description: "sword",
-                  attack: 1,
-                  damageMin: 1,
-                  damageMax: 8,
-                  apCost: 0,
-                  backstab: 0,
-                  inPossession: true,
+                  name: "Stab",
+                  description: "stabs",
+                  type: "attack",
+                  modifiedStats: [
+                    { targetStat: "Pwr", mod: 0, isPermanent: false },
+                     { targetStat: "Lck", mod: 5, isPermanent: false },
+                     { targetStat: "Ap", mod: 2, isPermanent: true },
+                  ],
+               },
+               {
+                  name: "Slash",
+                  description: "slashes",
+                  type: "attack",
+                  modifiedStats: [
+                     { targetStat: "Pwr", mod: 5, isPermanent: false },
+                     { targetStat: "Ap", mod: 3, isPermanent: true },
+                  ],
+               },
+               {
+                  name: "Shield",
+                  description: "blocks",
+                  type: "defense",
+                  modifiedStats: [
+                     { targetStat: "Pwr", mod: 5, isPermanent: false },
+                     { targetStat: "Lck", mod: 5, isPermanent: false },
+                     { targetStat: "Ap", mod: 2, isPermanent: true },
+                  ],
                },
             ],
-            armors: [
-               //modifies defense (will be locked to single non-modifying for v.1)
-               {
-                  name: "breastplate v1",
-                  description: "armor",
-                  damageReduction: 0,
-                  armorClass: 5,
-                  apRegen: 0,
-                  inPossession: true,
-               },
-            ],
+
+            /*
+            When an action occurs.
+            PWR modified.  LCK modified.
+            Attacker LCK/Target LCK checks crit.  5% base chance.
+            Attacker PWR - Target PWR is removed from Target HP
+            Attacker AP is reduced by AP cost of action.
+            
+            */
+
+            /*name: String,
+               description: String,
+               type: String, //attack or defend
+               modifiedStats: [
+                  {
+                     target: String, //self or opponent
+                     statName: String, //existing stats
+                     mod: Number, //can be multiplicative or additive
+                     isPermanent: Boolean, //for hp/ap
+                  },
+               ],*/
          },
       ],
    },
@@ -62,44 +81,40 @@ const users = [
             image: "hero-male.jpg",
             hp: 160, //hit points
             ap: 11, //action points
-            ac: 11, // to hit roll needs to equal this or higher to deal damage.
-            str: 6, // attack dmg
-            dex: 5, // attack accuracy
-            end: 6, // reduces enemy dmg, improves hp
-            mnd: 5, // improves ap
-            agi: 6, // improves AC/attack avoiding
-            spr: 5, // 'Luck', improves crit
-            actions: [
-               // allows for different moves
-
-               { description: "stabs", damage: 0, apCost: 2 },
-               { description: "slashes", damage: 1, apCost: 3 },
-               { description: "defends", damage: 0, apCost: -2 },
-            ],
-            weapons: [
-               // modifies attacks (will be locked to single basic non-modifying for v.1)
-               {
-                  name: "sword",
-                  description: "sword",
-                  attack: 1,
-                  damageMin: 1,
-                  damageMax: 8,
-                  apCost: 0,
-                  backstab: 0,
-                  inPossession: true,
-               },
-            ],
-            armors: [
-               //modifies defense (will be locked to single non-modifying for v.1)
-               {
-                  name: "breastplate v1",
-                  description: "armor",
-                  damageReduction: 0,
-                  armorClass: 5,
-                  apRegen: 0,
-                  inPossession: true,
-               },
-            ],
+            pwr: 11 //power modifies damage
+            lck: 10 //luck modifies crit
+            actions: actions: [
+                // allows for different moves
+ 
+                {
+                   name: "Stab",
+                   description: "stabs",
+                   type: "attack",
+                   modifiedStats: [
+                      { targetStat: "Lck", mod: 5, isPermanent: false },
+                      { targetStat: "Ap", mod: 2, isPermanent: true },
+                   ],
+                },
+                {
+                   name: "Slash",
+                   description: "slashes",
+                   type: "attack",
+                   modifiedStats: [
+                      { targetStat: "Pwr", mod: 5, isPermanent: false },
+                      { targetStat: "Ap", mod: 3, isPermanent: true },
+                   ],
+                },
+                {
+                   name: "Shield",
+                   description: "blocks",
+                   type: "defense",
+                   modifiedStats: [
+                      { targetStat: "Pwr", mod: 5, isPermanent: false },
+                      { targetStat: "Lck", mod: 5, isPermanent: false },
+                      { targetStat: "Ap", mod: 2, isPermanent: true },
+                   ],
+                },
+             ],
          },
       ],
    },

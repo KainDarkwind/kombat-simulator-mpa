@@ -1,1 +1,0 @@
-const actionSchema = { description: String, damage: Number, apCost: Number },

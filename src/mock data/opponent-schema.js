@@ -2,15 +2,23 @@ const opponentSchema = {
    name: String,
    level: Number,
    image: String,
-   hitDie: Number,
-   maxHp: Number,
-   armor: Number,
-   attack: Number,
-   weapon: Number,
-   strength: Number,
-   dexterity: Number,
-   endurance: Number,
-   mind: Number,
-   agility: Number,
-   spirit: Number,
+   hp: Number,
+   ap: Number,
+   pwr: Number,
+   lck: Number,
+   actions: [
+      // allows for different moves
+      {
+         name: String,
+         description: String,
+         type: String, //attack (target = opponent) or defend (target = self)
+         modifiedStats: [
+            {
+               targetStat: String, //stat adjusted
+               mod: Number, //can be multiplicative or additive
+               isPermanent: Boolean, //for hp/ap
+            },
+         ],
+      },
+   ],
 };

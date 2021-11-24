@@ -3,48 +3,63 @@ const opponents = [
       name: "Goblin",
       level: 1,
       image: "goblin2.jpg",
-      hitDie: 6,
-      maxHp: 6,
-      armor: armors[0],
-      attack: 2,
-      weapon: weapons[0],
-      strength: -1,
-      dexterity: 1,
-      endurance: -1,
-      mind: -1,
-      agility: 1,
-      spirit: -1,
+      hp: 15, //hit points
+      ap: 0, //action points
+      pwr: 2, // damage modification
+      lck: 2, //luck check crit
+      actions: [
+         // allows for different moves
+
+         {
+            name: "Bash",
+            description: "bashes",
+            type: "attack",
+            modifiedStats: [{ targetStat: "Pwr", mod: 0, isPermanent: false }],
+         }, //In my mind, since it doesn't targetStat LCK, it never sends a luck stat to check for a crit.  If it did targetStat LCK, even if it left luck unmodified, it would check for crit.
+      ],
    },
    {
       name: "Orc",
       level: 2,
-      image: "orc2.jpg",
-      hitDie: 8,
-      maxHp: 8,
-      armor: armors[0],
-      attack: 2,
-      weapon: weapons[1],
-      strength: 3,
-      dexterity: 1,
-      endurance: 2,
-      mind: -1,
-      agility: 1,
-      spirit: 0,
+      image: "orc.jpg",
+      hp: 30, //hit points
+      ap: 0, //action points
+      pwr: 4, // damage modification
+      lck: 3, //luck check crit
+      actions: [
+         // allows for different moves
+
+         {
+            name: "Mash",
+            description: "mashes",
+            type: "attack",
+            modifiedStats: [
+               { targetStat: "Pwr", mod: 0, isPermanent: false },
+               { targetStat: "Lck", mod: 0, isPermanent: false },
+            ],
+         },
+      ],
    },
    {
       name: "Ogre",
       level: 3,
-      image: "orc2.jpg",
-      hitDie: 10,
-      maxHp: 10,
-      armor: armors[0],
-      attack: 2,
-      weapon: weapons[2],
-      strength: 5,
-      dexterity: 2,
-      endurance: 4,
-      mind: -1,
-      agility: 0,
-      spirit: 0,
+      image: "ogre.jpg",
+      hp: 60, //hit points
+      ap: 0, //action points
+      pwr: 6, // damage modification
+      lck: 3, //luck check crit
+      actions: [
+         // allows for different moves
+
+         {
+            name: "Smash",
+            description: "Smashes",
+            type: "attack",
+            modifiedStats: [
+               { targetStat: "Pwr", mod: 5, isPermanent: false },
+               { targetStat: "Lck", mod: 0, isPermanent: false },
+            ],
+         },
+      ],
    },
 ];
