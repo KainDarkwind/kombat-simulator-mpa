@@ -1,7 +1,8 @@
 import React from "react";
 import Header from "../ui/Header";
 import Navigation from "../ui/Navigation";
-import { Link } from "react-router-dom";
+import opponents from "../../mock data/opponents";
+import Combatants from "../ui/Combatants";
 
 export default function Arena() {
    return (
@@ -16,33 +17,19 @@ export default function Arena() {
                </div>
             </div>
             <hr className="font-weight-bold" />
-         </div>
-
-         <div className="container">
-            <div className="row">
-               <div className="col-7 font-weight-bold">
-                  <div className="mb-5 lead text-muted">
-                     <h4>Choose an Opponent</h4>
-                  </div>
-                  <Link to="/combat" id="goblin-combat">
-                     Goblin
-                  </Link>
-                  <hr />
-               </div>
-               <div className="col-7 font-weight-bold">
-                  <Link to="/combat" id="orc-combat">
-                     Orc
-                  </Link>
-                  <hr />
-               </div>
-
-               <div className="col-7 font-weight-bold">
-                  <Link to="/combat" id="ogre-combat">
-                     Ogre
-                  </Link>
-               </div>
+            <div className="mb-5 lead text-muted">
+               <h4>Choose an Opponent</h4>
             </div>
          </div>
+         {opponents.map((opponent) => {
+            return (
+               <Combatants
+                  name={opponent.name}
+                  image={opponent.image}
+                  key={opponent.name}
+               />
+            );
+         })}
       </>
    );
 }

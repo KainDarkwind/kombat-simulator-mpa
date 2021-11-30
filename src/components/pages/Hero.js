@@ -1,7 +1,11 @@
 import React from "react";
 import Header from "../ui/Header";
 import Navigation from "../ui/Navigation";
-import heroProfile from "../../img/hero-female.jpg";
+import Actions from "../ui/Actions";
+import users from "../../mock data/users";
+
+const character = users[0].characters[0];
+const characterActions = character.actions;
 
 export default function Hero() {
    return (
@@ -24,7 +28,7 @@ export default function Hero() {
             <div className="row">
                <div className="col-6">
                   <img
-                     src={heroProfile}
+                     src={character.image}
                      alt="Female Hero"
                      className="img-fluid"
                   />
@@ -33,84 +37,44 @@ export default function Hero() {
                   <div className="font-weight-bold">
                      <u>Hero Stats</u>
                   </div>
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Strength:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-strength"
-                     ></div>
+                  <div className="col-8">
+                     <div className="d-inline font-weight-bold">
+                        Hit Points:
+                     </div>
+                     <div className="float-right d-inline" id="char-hp">
+                        {character.hp}
+                     </div>
+                  </div>
+                  <div className="col-8">
+                     <div className="d-inline font-weight-bold">
+                        Action Points:
+                     </div>
+                     <div className="float-right d-inline" id="char-ap">
+                        {character.ap}
+                     </div>
+                  </div>
+                  <div className="col-8">
+                     <div className="d-inline font-weight-bold">Power:</div>
+                     <div className="float-right d-inline" id="char-pwr">
+                        {character.pwr}
+                     </div>
                   </div>
 
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Dexterity:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-dexterity"
-                     ></div>
-                  </div>
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Endurance:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-endurance"
-                     ></div>
-                  </div>
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Mind:</div>
-                     <div className="float-right d-inline" id="hero-mind"></div>
-                  </div>
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Agility:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-agility"
-                     ></div>
-                  </div>
-                  <div className="col-6">
-                     <div className="d-inline font-weight-bold">Spirit:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-spirit"
-                     ></div>
+                  <div className="col-8">
+                     <div className="d-inline font-weight-bold">Luck:</div>
+                     <div className="float-right d-inline" id="char-luck">
+                        {character.lck}
+                     </div>
                   </div>
                </div>
 
                <div className="border p-1 col-3">
                   <div className="font-weight-bold">
-                     <u>Hero Equipment</u>
+                     <u>Hero Actions</u>
                   </div>
-                  <div className="col-10">
-                     <div className="d-inline font-weight-bold">
-                        Primary Hand:
-                     </div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-hand-primary"
-                     ></div>
-                  </div>
-                  <div className="col-10">
-                     <div className="font-weight-bold">Off Hand:</div>
-                     <div id="hero-hand-off"></div>
-                  </div>
-                  <div className="col-10">
-                     <div className="d-inline font-weight-bold">Armor:</div>
-                     <div
-                        className="float-right d-inline"
-                        id="hero-armor-body"
-                     ></div>
-                  </div>
-                  <div className="col-10">
-                     <div className="font-weight-bold">Helm:</div>
-                     <div id="hero-armor-head"></div>
-                  </div>
-                  <div className="col-10">
-                     <div className="font-weight-bold">Boots:</div>
-                     <div id="hero-armor-foot"></div>
-                  </div>
-                  <div className="col-10">
-                     <div className="font-weight-bold">Arms:</div>
-                     <div id="hero-armor-arms"></div>
-                  </div>
+                  {characterActions.map((action) => {
+                     return <Actions name={action.name} key={action.name} />;
+                  })}
                </div>
             </div>
          </div>

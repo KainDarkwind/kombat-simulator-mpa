@@ -7,7 +7,7 @@ const users = [
             // allows for multiple characters in the future
             name: "She-Ra",
             level: 1,
-            image: "hero-female.jpg",
+            image: "hero-female.webp",
             hp: 12, //hit points
             ap: 6, //action points
 
@@ -21,9 +21,9 @@ const users = [
                   description: "stabs",
                   type: "attack",
                   modifiedStats: [
-                    { targetStat: "Pwr", mod: 0, isPermanent: false },
-                     { targetStat: "Lck", mod: 5, isPermanent: false },
-                     { targetStat: "Ap", mod: 2, isPermanent: true },
+                     { targetStat: "pwr", mod: 0, isPermanent: false },
+                     { targetStat: "lck", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: 2, isPermanent: true },
                   ],
                },
                {
@@ -31,8 +31,8 @@ const users = [
                   description: "slashes",
                   type: "attack",
                   modifiedStats: [
-                     { targetStat: "Pwr", mod: 5, isPermanent: false },
-                     { targetStat: "Ap", mod: 3, isPermanent: true },
+                     { targetStat: "pwr", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: 3, isPermanent: true },
                   ],
                },
                {
@@ -40,33 +40,12 @@ const users = [
                   description: "blocks",
                   type: "defense",
                   modifiedStats: [
-                     { targetStat: "Pwr", mod: 5, isPermanent: false },
-                     { targetStat: "Lck", mod: 5, isPermanent: false },
-                     { targetStat: "Ap", mod: 2, isPermanent: true },
+                     { targetStat: "pwr", mod: 5, isPermanent: false },
+                     { targetStat: "lck", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: -2, isPermanent: true },
                   ],
                },
             ],
-
-            /*
-            When an action occurs.
-            PWR modified.  LCK modified.
-            Attacker LCK/Target LCK checks crit.  5% base chance.
-            Attacker PWR - Target PWR is removed from Target HP
-            Attacker AP is reduced by AP cost of action.
-            
-            */
-
-            /*name: String,
-               description: String,
-               type: String, //attack or defend
-               modifiedStats: [
-                  {
-                     target: String, //self or opponent
-                     statName: String, //existing stats
-                     mod: Number, //can be multiplicative or additive
-                     isPermanent: Boolean, //for hp/ap
-                  },
-               ],*/
          },
       ],
    },
@@ -81,41 +60,43 @@ const users = [
             image: "hero-male.jpg",
             hp: 160, //hit points
             ap: 11, //action points
-            pwr: 11 //power modifies damage
-            lck: 10 //luck modifies crit
-            actions: actions: [
-                // allows for different moves
- 
-                {
-                   name: "Stab",
-                   description: "stabs",
-                   type: "attack",
-                   modifiedStats: [
-                      { targetStat: "Lck", mod: 5, isPermanent: false },
-                      { targetStat: "Ap", mod: 2, isPermanent: true },
-                   ],
-                },
-                {
-                   name: "Slash",
-                   description: "slashes",
-                   type: "attack",
-                   modifiedStats: [
-                      { targetStat: "Pwr", mod: 5, isPermanent: false },
-                      { targetStat: "Ap", mod: 3, isPermanent: true },
-                   ],
-                },
-                {
-                   name: "Shield",
-                   description: "blocks",
-                   type: "defense",
-                   modifiedStats: [
-                      { targetStat: "Pwr", mod: 5, isPermanent: false },
-                      { targetStat: "Lck", mod: 5, isPermanent: false },
-                      { targetStat: "Ap", mod: 2, isPermanent: true },
-                   ],
-                },
-             ],
+            pwr: 11, //power modifies damage
+            lck: 10, //luck modifies crit
+            actions: [
+               // allows for different moves
+
+               {
+                  name: "Stab",
+                  description: "stabs",
+                  type: "attack",
+                  modifiedStats: [
+                     { targetStat: "lck", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: 2, isPermanent: true },
+                  ],
+               },
+               {
+                  name: "Slash",
+                  description: "slashes",
+                  type: "attack",
+                  modifiedStats: [
+                     { targetStat: "pwr", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: 3, isPermanent: true },
+                  ],
+               },
+               {
+                  name: "Shield",
+                  description: "blocks",
+                  type: "defense",
+                  modifiedStats: [
+                     { targetStat: "pwr", mod: 5, isPermanent: false },
+                     { targetStat: "lck", mod: 5, isPermanent: false },
+                     { targetStat: "ap", mod: -2, isPermanent: true },
+                  ],
+               },
+            ],
          },
       ],
    },
 ];
+
+export default users;
