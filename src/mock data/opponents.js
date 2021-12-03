@@ -12,7 +12,7 @@ const opponents = [
             name: "Bash",
             description: "bashes",
             type: "attack",
-            modifiedStats: [{ targetStat: "pwr", mod: 0, isPermanent: false }],
+            pwr: 0,
          }, //In my mind, since it doesn't targetStat LCK, it never sends a luck stat to check for a crit.  If it did targetStat LCK, even if it left luck unmodified, it would check for crit. (As below.)
       ],
    },
@@ -29,10 +29,15 @@ const opponents = [
             name: "Mash",
             description: "mashes",
             type: "attack",
-            modifiedStats: [
-               { targetStat: "pwr", mod: 0, isPermanent: false },
-               { targetStat: "lck", mod: 0, isPermanent: false },
-            ],
+            pwr: 0,
+            lck: 0,
+         },
+         {
+            name: "Super Mash",
+            description: "mashes and mashes some more",
+            type: "attack",
+            pwr: 5,
+            lck: 0,
          },
       ],
    },
@@ -47,12 +52,10 @@ const opponents = [
       actions: [
          {
             name: "Smash",
-            description: "Smashes",
+            description: "smashes",
             type: "attack",
-            modifiedStats: [
-               { targetStat: "pwr", mod: 5, isPermanent: false },
-               { targetStat: "lck", mod: 0, isPermanent: false },
-            ],
+            pwr: 5,
+            lck: 0,
          },
       ],
    },
