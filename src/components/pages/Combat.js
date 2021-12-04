@@ -12,11 +12,24 @@ export default class Combat extends React.Component {
    constructor(props) {
       super(props);
       console.log(props);
-      this.state = {};
+      this.state = {
+         stateSomwhereElse: false,
+         character: character,
+         opponent: opponent,
+         pizza: 10,
+      };
    }
 
-   setStateSomewhereElse() {
-      console.log("You've made changes to the parent component");
+   setCharState(char) {
+      //reach parent function
+      console.log("we're setting the character state");
+      console.log(
+         "This is passed in from our combat roll function in the child component:",
+         char
+      );
+      const charObj = char;
+
+      this.setState({ character: char });
    }
 
    render() {
@@ -44,6 +57,7 @@ export default class Combat extends React.Component {
                               hero={character}
                               opponent={opponent}
                               key={action.name}
+                              setCharState={this.setCharState}
                            />
                         );
                      })}

@@ -10,6 +10,8 @@ export default class CombatButton extends React.Component {
 
    rollCombat(e) {
       //   const action = e.target.id;
+
+      this.props.setCharState({ pizza: 1 });
       const heroAction = this.props.action;
       const opponent = this.props.opponent;
       const hero = this.props.hero;
@@ -27,6 +29,7 @@ export default class CombatButton extends React.Component {
       console.log("This is a", heroAction.type, "action.");
 
       if (heroAction.type === "attack") {
+         //run attack(target, attacker)
          console.log("Because this is a", heroAction.type, "action:");
          console.log(
             "Her power is",
@@ -118,6 +121,7 @@ export default class CombatButton extends React.Component {
             "AP.  Now we have to send those five values back up the chain so we can update our state in Combat.js."
          );
       } else if (heroAction.type === "defense") {
+         //run defense()
          console.log("Because this is a", heroAction.type, "action:");
          console.log(
             "Her power is",
