@@ -34,7 +34,7 @@ const opponents = [
          },
          {
             name: "Super Mash",
-            description: "mashes and mashes some more",
+            description: "MASHES",
             type: "attack",
             pwr: 5,
             lck: 0,

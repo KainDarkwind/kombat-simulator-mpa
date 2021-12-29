@@ -8,10 +8,31 @@ export default class CombatButton extends React.Component {
       this.state = {};
    }
 
+   checkAp(e) {
+      if (this.props.action.ap > this.props.hero.ap) {
+         // display this error message
+         const outOfAp = {
+            heroCombatAction:
+               "You're too exhausted to do that.  Shield to restore your action points.",
+            opponentCombatAction: "Your opponent grumbles menacingly.",
+            newHeroHp: this.props.hero.hp,
+            newHeroAp: this.props.hero.ap,
+            newOpponentHp: this.props.opponent.hp,
+            heroCrit: false,
+            opponentCrit: false,
+            isHeroDead: false,
+            isOpponentDead: false,
+         };
+
+         this.props.setCharState(outOfAp);
+      } else {
+         this.rollCombat(e);
+      }
+   }
+
    rollCombat(e) {
       //   const action = e.target.id;
 
-      this.props.setCharState({ pizza: 1 });
       const heroAction = this.props.action;
       const opponent = this.props.opponent;
       const hero = this.props.hero;
@@ -66,7 +87,11 @@ export default class CombatButton extends React.Component {
 
          console.log(opponent.name, "takes", opponentHpLoss, "damage");
 
-         const opponentAction = opponent.actions[getRandomInt(0, 1)];
+         let opponentAction = opponent.actions[0];
+         if (getRandomInt(0, 20) < opponent.lck) {
+            opponentAction =
+               opponent.actions[getRandomInt(0, opponent.actions.length - 1)];
+         }
 
          console.log(opponent.name, "will try to", opponentAction.name);
 
@@ -102,8 +127,57 @@ export default class CombatButton extends React.Component {
             opponentCurrentPwr
          );
 
-         const heroHpLoss =
-            opponentCurrentPwr + opponentCritDamage - hero.pwr / 2;
+         const heroHpLoss = Math.round(
+            opponentCurrentPwr + opponentCritDamage - hero.pwr / 2
+         );
+
+         const newHeroHp = hero.hp - heroHpLoss;
+         const newHeroAp = hero.ap - heroAction.ap;
+         const newOpponentHp = opponent.hp - opponentHpLoss;
+
+         let isHeroDead = false;
+         if (newHeroHp <= 0) {
+            isHeroDead = true;
+         }
+
+         let isOpponentDead = false;
+         if (newOpponentHp <= 0) {
+            isOpponentDead = true;
+         }
+
+         const heroCombatAction =
+            hero.name +
+            " " +
+            heroAction.description +
+            " the " +
+            opponent.name +
+            " for " +
+            opponentHpLoss +
+            " damage.";
+
+         const opponentCombatAction =
+            "The " +
+            opponent.name +
+            " " +
+            opponentAction.description +
+            " " +
+            hero.name +
+            " for " +
+            heroHpLoss +
+            " damage.";
+
+         const combatResolution = {
+            heroCombatAction: heroCombatAction,
+            opponentCombatAction: opponentCombatAction,
+            newHeroHp: newHeroHp,
+            newHeroAp: newHeroAp,
+            newOpponentHp: newOpponentHp,
+            heroCrit: isHeroCrit,
+            opponentCrit: isOpponentCrit,
+            isHeroDead: isHeroDead,
+            isOpponentDead: isOpponentDead,
+         };
+         this.props.setCharState(combatResolution);
 
          console.log(hero.name, "takes", heroHpLoss, "damage");
 
@@ -141,7 +215,12 @@ export default class CombatButton extends React.Component {
             "action.  Our combat log shouldn't even mention it as such, but we should still send it up at the end so it can update it even though it won't actually change."
          );
 
-         const opponentAction = opponent.actions[getRandomInt(0, 1)];
+         let opponentAction = opponent.actions[0];
+         if (getRandomInt(0, 20) < opponent.lck) {
+            opponentAction =
+               opponent.actions[getRandomInt(0, opponent.actions.length - 1)];
+         }
+
          //We should adjust this opponentAction to use the start and end index of the opponent action array rather than hard coding a 0-1.
 
          console.log(opponent.name, "will try to", opponentAction.name);
@@ -181,6 +260,45 @@ export default class CombatButton extends React.Component {
          const heroHpLoss =
             opponentCurrentPwr + opponentCritDamage - heroCurrentPwr / 2;
 
+         const heroCombatAction =
+            hero.name +
+            " " +
+            heroAction.description +
+            " the " +
+            opponent.name +
+            ".";
+
+         const opponentCombatAction =
+            "The " +
+            opponent.name +
+            " " +
+            opponentAction.description +
+            " " +
+            hero.name +
+            " for " +
+            heroHpLoss +
+            " damage.";
+
+         const newHeroHp = hero.hp - heroHpLoss;
+         const newHeroAp = hero.ap - heroAction.ap;
+         const newOpponentHp = opponent.hp - opponentHpLoss;
+
+         const combatResolution = {
+            heroCombatAction: heroCombatAction,
+            opponentCombatAction: opponentCombatAction,
+            newHeroHp: newHeroHp,
+            newHeroAp: newHeroAp,
+            newOpponentHp: newOpponentHp,
+         };
+         this.props.setCharState(combatResolution);
+
+         console.log(
+            "The hero should now have",
+            newHeroHp,
+            "and the opponent should now have",
+            newOpponentHp
+         );
+
          console.log(hero.name, "takes", heroHpLoss, "damage");
          console.log(
             "So the opponent took",
@@ -202,7 +320,7 @@ export default class CombatButton extends React.Component {
             className="btn btn-block btn-primary ml-2 my-6"
             id={this.props.action.name}
             onClick={(e) => {
-               this.rollCombat(e);
+               this.checkAp(e);
             }}
          >
             {this.props.action.name}
