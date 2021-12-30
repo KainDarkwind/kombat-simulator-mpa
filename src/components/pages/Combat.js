@@ -6,7 +6,9 @@ import users from "../../mock data/users";
 import opponents from "../../mock data/opponents";
 import CombatButton from "../ui/CombatButton";
 import getCssClasses from "classnames";
-const opponent = opponents[1];
+import { getRandomInt } from "../../utils/helpers";
+const opponent = opponents[[getRandomInt(0, opponents.length - 1)]];
+
 const character = users[0].characters[0];
 
 export default class Combat extends React.Component {
@@ -18,7 +20,7 @@ export default class Combat extends React.Component {
          character: character,
          opponent: opponent,
          combatMessage: "",
-         isCriticalHit: false,
+         heroCrit: false,
          isHeroDead: false,
          isOpponentDead: false,
       };
@@ -27,6 +29,7 @@ export default class Combat extends React.Component {
    clearCombatLog = () => {
       this.setState(() => ({
          combatMessage: "",
+         heroCrit: false,
       }));
    };
    resetCombat = () => {
@@ -34,20 +37,29 @@ export default class Combat extends React.Component {
          character: character,
          opponent: opponent,
          combatMessage: "",
-         isCriticalHit: false,
+         heroCrit: false,
          isHeroDead: false,
          isOpponentDead: false,
       }));
    };
 
+   setOppState = (resolution) => {
+      console.log("we're setting the opponent state");
+      this.setState((prevState) => ({
+         opponent: { ...prevState.opponent, hp: resolution.newOpponentHp },
+         isOpponentDead: resolution.isOpponentDead,
+      }));
+   };
+   setCombatMessage = (message) => {
+      console.log("we're setting the combat message");
+      this.setState(() => ({
+         combatMessage:
+            message.heroCombatMessage + " " + message.opponentCombatMessage,
+      }));
+   };
    setCharState = (resolution) => {
       //reach parent function
       console.log("we're setting the character state");
-      console.log(
-         "This object is passed in from our combat roll function in the child component:",
-         resolution,
-         ".  Use its parts to update the state."
-      );
 
       this.setState((prevState) => ({
          character: {
@@ -55,12 +67,8 @@ export default class Combat extends React.Component {
             hp: resolution.newHeroHp,
             ap: resolution.newHeroAp,
          },
-         opponent: { ...prevState.opponent, hp: resolution.newOpponentHp },
-         combatMessage:
-            resolution.heroCombatAction + " " + resolution.opponentCombatAction,
-         isCriticalHit: resolution.heroCrit,
+         heroCrit: resolution.heroCrit,
          isHeroDead: resolution.isHeroDead,
-         isOpponentDead: resolution.isOpponentDead,
       }));
    };
 
@@ -115,6 +123,8 @@ export default class Combat extends React.Component {
                               opponent={this.state.opponent}
                               key={action.name}
                               setCharState={this.setCharState}
+                              setOppState={this.setOppState}
+                              setCombatMessage={this.setCombatMessage}
                            />
                         );
                      })}
@@ -154,14 +164,14 @@ export default class Combat extends React.Component {
                   <div className="col-4 mt-8 p-5 border">
                      <div
                         className={getCssClasses({
-                           "text-danger": this.state.isCriticalHit,
-                           "font-weight-bold": this.state.isCriticalHit,
+                           "text-danger": this.state.heroCrit,
+                           "font-weight-bold": this.state.heroCrit,
                         })}
                         id="combat-readout"
                      >
                         <span
                            className={getCssClasses({
-                              "d-none": !this.state.isCriticalHit,
+                              "d-none": !this.state.heroCrit,
                            })}
                         >
                            CRITICAL HIT!

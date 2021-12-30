@@ -12,19 +12,12 @@ export default class CombatButton extends React.Component {
       if (this.props.action.ap > this.props.hero.ap) {
          // display this error message
          const outOfAp = {
-            heroCombatAction:
+            heroCombatMessage:
                "You're too exhausted to do that.  Shield to restore your action points.",
-            opponentCombatAction: "Your opponent grumbles menacingly.",
-            newHeroHp: this.props.hero.hp,
-            newHeroAp: this.props.hero.ap,
-            newOpponentHp: this.props.opponent.hp,
-            heroCrit: false,
-            opponentCrit: false,
-            isHeroDead: false,
-            isOpponentDead: false,
+            opponentCombatMessage: "Your opponent grumbles menacingly.",
          };
 
-         this.props.setCharState(outOfAp);
+         this.props.setCombatMessage(outOfAp);
       } else {
          this.rollCombat(e);
       }
@@ -45,15 +38,20 @@ export default class CombatButton extends React.Component {
 
    resolveAttack(attacker, action, target) {
       const attackerCurrentPwr = action.pwr + attacker.pwr;
+      const isCrit = this.checkCriticalHit(attacker, action, target);
       let critDamage = 0;
-      if (this.checkCriticalHit(attacker, action, target)) {
+      if (isCrit) {
          critDamage = 10;
       }
 
       const targetHpLoss = Math.round(
          attackerCurrentPwr + critDamage - target.pwr / 2
       );
-      return targetHpLoss;
+      const attackResolution = {
+         targetHpLoss: targetHpLoss,
+         isCrit: isCrit,
+      };
+      return attackResolution;
    }
 
    rollCombat(e) {
@@ -71,11 +69,23 @@ export default class CombatButton extends React.Component {
       if (heroAction.type === "attack") {
          //run attack(target, attacker)
 
-         const heroHpLoss = this.resolveAttack(opponent, opponentAction, hero);
+         const opponentAttackResolution = this.resolveAttack(
+            opponent,
+            opponentAction,
+            hero
+         );
+         const heroAttackResolution = this.resolveAttack(
+            hero,
+            heroAction,
+            opponent
+         );
+
+         const heroHpLoss = opponentAttackResolution.targetHpLoss;
+         const heroCrit = heroAttackResolution.isCrit;
          const newHeroHp = hero.hp - heroHpLoss;
          const newHeroAp = hero.ap - heroAction.ap;
 
-         const opponentHpLoss = this.resolveAttack(hero, heroAction, opponent);
+         const opponentHpLoss = heroAttackResolution.targetHpLoss;
          const newOpponentHp = opponent.hp - opponentHpLoss;
 
          let isHeroDead = false;
@@ -88,7 +98,7 @@ export default class CombatButton extends React.Component {
             isOpponentDead = true;
          }
 
-         const heroCombatAction =
+         const heroCombatMessage =
             hero.name +
             " " +
             heroAction.description +
@@ -98,7 +108,7 @@ export default class CombatButton extends React.Component {
             opponentHpLoss +
             " damage.";
 
-         const opponentCombatAction =
+         const opponentCombatMessage =
             "The " +
             opponent.name +
             " " +
@@ -109,23 +119,38 @@ export default class CombatButton extends React.Component {
             heroHpLoss +
             " damage.";
 
-         const combatResolution = {
-            heroCombatAction: heroCombatAction,
-            opponentCombatAction: opponentCombatAction,
+         const combatMessage = {
+            heroCombatMessage: heroCombatMessage,
+            opponentCombatMessage: opponentCombatMessage,
+         };
+
+         const heroCombatResolution = {
             newHeroHp: newHeroHp,
             newHeroAp: newHeroAp,
-            newOpponentHp: newOpponentHp,
-
+            heroCrit: heroCrit,
             isHeroDead: isHeroDead,
+         };
+         const oppCombatResolution = {
+            newOpponentHp: newOpponentHp,
             isOpponentDead: isOpponentDead,
          };
-         this.props.setCharState(combatResolution);
+         this.props.setCharState(heroCombatResolution);
+         this.props.setOppState(oppCombatResolution);
+         this.props.setCombatMessage(combatMessage);
       } else if (heroAction.type === "defense") {
          //run defense()
+
+         const opponentAttackResolution = this.resolveAttack(
+            opponent,
+            opponentAction,
+            hero
+         );
+
          const heroHpLoss = Math.max(
             0,
-            this.resolveAttack(opponent, opponentAction, hero) - heroAction.pwr
+            opponentAttackResolution.targetHpLoss - heroAction.pwr
          );
+
          const newHeroHp = hero.hp - heroHpLoss;
          const newHeroAp = hero.ap - heroAction.ap;
 
@@ -142,7 +167,7 @@ export default class CombatButton extends React.Component {
             isOpponentDead = true;
          }
 
-         const heroCombatAction =
+         const heroCombatMessage =
             hero.name +
             " " +
             heroAction.description +
@@ -150,7 +175,7 @@ export default class CombatButton extends React.Component {
             opponent.name +
             ".";
 
-         const opponentCombatAction =
+         const opponentCombatMessage =
             "The " +
             opponent.name +
             " " +
@@ -161,17 +186,24 @@ export default class CombatButton extends React.Component {
             heroHpLoss +
             " damage.";
 
-         const combatResolution = {
-            heroCombatAction: heroCombatAction,
-            opponentCombatAction: opponentCombatAction,
+         const combatMessage = {
+            heroCombatMessage: heroCombatMessage,
+            opponentCombatMessage: opponentCombatMessage,
+         };
+
+         const heroCombatResolution = {
             newHeroHp: newHeroHp,
             newHeroAp: newHeroAp,
-            newOpponentHp: newOpponentHp,
-
+            heroCrit: false,
             isHeroDead: isHeroDead,
+         };
+         const oppCombatResolution = {
+            newOpponentHp: newOpponentHp,
             isOpponentDead: isOpponentDead,
          };
-         this.props.setCharState(combatResolution);
+         this.props.setCharState(heroCombatResolution);
+         this.props.setOppState(oppCombatResolution);
+         this.props.setCombatMessage(combatMessage);
       }
    }
 
