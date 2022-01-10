@@ -1,0 +1,85 @@
+[
+   {
+      "email": "mike@tenxcode.com",
+      "password": "7F70DA91F80FCA9EE4CF1826ABE3E181",
+      "characters": [
+         {
+            "name": "She-Ra",
+            "level": 1,
+            "image": "hero-female.webp",
+            "hp": 12,
+            "ap": 6,
+
+            "pwr": 3,
+            "lck": 2,
+            "actions": [
+               {
+                  "name": "Stab",
+                  "description": "stabs",
+                  "type": "attack",
+                  "pwr": 0,
+                  "lck": 5,
+                  "ap": 2
+               },
+               {
+                  "name": "Slash",
+                  "description": "slashes",
+                  "type": "attack",
+                  "pwr": 5,
+                  "lck": 0,
+                  "ap": 3
+               },
+               {
+                  "name": "Shield",
+                  "description": "blocks",
+                  "type": "defense",
+                  "pwr": 5,
+                  "lck": 5,
+                  "ap": -2
+               }
+            ]
+         }
+      ]
+   },
+   {
+      "email": "kal@superman.com",
+      "password": "0F5F608196BD2B2172C562591B414941",
+      "characters": [
+         {
+            "name": "He-ro",
+            "level": 10,
+            "image": "hero-male.jpg",
+            "hp": 160,
+            "ap": 11,
+            "pwr": 11,
+            "lck": 10,
+            "actions": [
+               {
+                  "name": "Stab",
+                  "description": "stabs",
+                  "type": "attack",
+                  "pwr": 0,
+                  "lck": 5,
+                  "ap": 2
+               },
+               {
+                  "name": "Slash",
+                  "description": "slashes",
+                  "type": "attack",
+                  "pwr": 5,
+                  "lck": 0,
+                  "ap": 3
+               },
+               {
+                  "name": "Shield",
+                  "description": "blocks",
+                  "type": "defense",
+                  "pwr": 5,
+                  "lck": 5,
+                  "ap": -2
+               }
+            ]
+         }
+      ]
+   }
+]
