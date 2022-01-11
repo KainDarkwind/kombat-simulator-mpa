@@ -7,11 +7,13 @@ import opponents from "../../mock data/opponents";
 import CombatButton from "../ui/CombatButton";
 import getCssClasses from "classnames";
 import { getRandomInt } from "../../utils/helpers";
+import { connect } from "react-redux";
+
 const opponent = opponents[[getRandomInt(0, opponents.length - 1)]];
 
 const character = users[0].characters[0];
 
-export default class Combat extends React.Component {
+class Combat extends React.Component {
    constructor(props) {
       super(props);
       console.log(props);
@@ -234,3 +236,10 @@ export default class Combat extends React.Component {
       );
    }
 }
+
+function mapStateToProps(state) {
+   return {
+      currentOpponent: state.currentOpponent,
+   };
+}
+export default connect(mapStateToProps)(Combat);
