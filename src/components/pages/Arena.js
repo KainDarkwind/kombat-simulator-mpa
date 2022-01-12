@@ -49,13 +49,7 @@ class Arena extends React.Component {
                </div>
             </div>
             {opponents.map((opponent) => {
-               return (
-                  <Combatants
-                     name={opponent.name}
-                     image={opponent.image}
-                     key={opponent.name}
-                  />
-               );
+               return <Combatants opponent={opponent} key={opponent.name} />;
             })}
          </>
       );

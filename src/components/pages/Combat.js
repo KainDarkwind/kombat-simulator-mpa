@@ -3,24 +3,23 @@ import React from "react";
 import Header from "../ui/Header";
 import Navigation from "../ui/Navigation";
 import users from "../../mock data/users";
-import opponents from "../../mock data/opponents";
+// import opponents from "../../mock data/opponents";
+// import { getRandomInt } from "../../utils/helpers";
 import CombatButton from "../ui/CombatButton";
 import getCssClasses from "classnames";
-import { getRandomInt } from "../../utils/helpers";
 import { connect } from "react-redux";
-
-const opponent = opponents[[getRandomInt(0, opponents.length - 1)]];
+// import axios from "axios";
+// import actions from "../../store/actions";
+import currentOpponent from "../../store/reducers/currentOpponent";
 
 const character = users[0].characters[0];
 
 class Combat extends React.Component {
    constructor(props) {
       super(props);
-      console.log(props);
-
       this.state = {
          character: character,
-         opponent: opponent,
+         opponent: currentOpponent,
          combatMessage: "",
          heroCrit: false,
          isHeroDead: false,
@@ -37,7 +36,7 @@ class Combat extends React.Component {
    resetCombat = () => {
       this.setState(() => ({
          character: character,
-         opponent: opponent,
+         opponent: currentOpponent,
          combatMessage: "",
          heroCrit: false,
          isHeroDead: false,
@@ -84,10 +83,10 @@ class Combat extends React.Component {
                <div className="row">
                   <div className="col-4 mt-1" id="opponent-full-col">
                      <img
-                        src={opponent.image}
+                        src={currentOpponent.image}
                         className="mr-2 mt-1"
                         height="300px"
-                        alt={opponent.name}
+                        alt={currentOpponent.name}
                      />
                   </div>
                   <div
@@ -150,17 +149,17 @@ class Combat extends React.Component {
                         id="opponent-name"
                         className="font-weight-bold text-center"
                      >
-                        {opponent.name}
+                        {currentOpponent.name}
                      </div>
-                     <div className="">Level:{opponent.level}</div>
+                     <div className="">Level:{currentOpponent.level}</div>
                      <div className="">
                         Hit Points: {this.state.opponent.hp}
                      </div>
-                     <div className="">Power: {opponent.pwr}</div>
-                     <div className="">Luck: {opponent.lck}</div>
+                     <div className="">Power: {currentOpponent.pwr}</div>
+                     <div className="">Luck: {currentOpponent.lck}</div>
                      <div>
                         <span className="font-weight-bold">Attacks:</span>{" "}
-                        {opponent.actions[0].name}
+                        {currentOpponent.actions[0].name}
                      </div>
                   </div>
                   <div className="col-4 mt-8 p-5 border">
@@ -239,6 +238,7 @@ class Combat extends React.Component {
 
 function mapStateToProps(state) {
    return {
+      opponents: state.opponents,
       currentOpponent: state.currentOpponent,
    };
 }

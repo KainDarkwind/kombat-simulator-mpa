@@ -1,37 +1,47 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import actions from "../../store/actions";
 
-export default function Combatants(props) {
-   function selectOpponent() {
-      console.log("This is props passed to combatants", props);
-      this.props.dispatch({ type: actions.STORE_CURRENT_OPPONENT });
+class Combatants extends React.Component {
+   selectOpponent() {
+      console.log("This is props passed to combatants", this.props);
+      this.props.dispatch({
+         type: actions.STORE_CURRENT_OPPONENT,
+         payload: this.props.opponent,
+      });
    }
-
-   return (
-      <div className="container">
-         <div className="row">
-            <div className="col-4 font-weight-bold">
-               <Link
-                  to="/combat"
-                  id="combat"
-                  onClick={() => {
-                     selectOpponent();
-                  }}
-               >
-                  <p>{props.name}</p>
-                  <p>
-                     <img
-                        className="mt-3"
-                        src={props.image}
-                        width="100px"
-                        alt={props.name}
-                     />
-                  </p>
-               </Link>
-               <hr />
+   render() {
+      return (
+         <div className="container">
+            <div className="row">
+               <div className="col-4 font-weight-bold">
+                  <Link
+                     to="/combat"
+                     id="combat"
+                     onClick={() => {
+                        this.selectOpponent();
+                     }}
+                  >
+                     <p>{this.props.name}</p>
+                     <p>
+                        <img
+                           className="mt-3"
+                           src={this.props.opponent.image}
+                           width="100px"
+                           alt={this.props.opponent.name}
+                        />
+                     </p>
+                  </Link>
+                  <hr />
+               </div>
             </div>
          </div>
-      </div>
-   );
+      );
+   }
 }
+
+function mapStateToProps(state) {
+   return {};
+}
+export default connect(mapStateToProps)(Combatants);
