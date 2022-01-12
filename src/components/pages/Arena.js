@@ -24,14 +24,12 @@ class Arena extends React.Component {
          .catch(function (error) {
             // handle error
             console.log(error);
-         })
-         .then(function () {
-            // always executed
          });
    }
 
    render() {
       const opponents = this.props.opponents;
+      console.log("opponents:", opponents);
       return (
          <>
             <div className="container">
@@ -56,9 +54,9 @@ class Arena extends React.Component {
    }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(store) {
    return {
-      opponents: state.opponents,
+      opponents: store.opponents,
    };
 }
 export default connect(mapStateToProps)(Arena);

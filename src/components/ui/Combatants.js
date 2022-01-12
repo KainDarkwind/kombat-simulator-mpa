@@ -23,7 +23,7 @@ class Combatants extends React.Component {
                         this.selectOpponent();
                      }}
                   >
-                     <p>{this.props.name}</p>
+                     <p>{this.props.opponent.name}</p>
                      <p>
                         <img
                            className="mt-3"
@@ -41,7 +41,9 @@ class Combatants extends React.Component {
    }
 }
 
-function mapStateToProps(state) {
-   return {};
+function mapStateToProps(store) {
+   return {
+      opponents: store.opponents,
+   };
 }
 export default connect(mapStateToProps)(Combatants);

@@ -1,7 +1,8 @@
 const users = [
    {
-      email: "mike@tenxcode.com",
+      email: "mike@gmail.com",
       password: "7F70DA91F80FCA9EE4CF1826ABE3E181",
+      fakePassword: "codeiscool",
       characters: [
          {
             // allows for multiple characters in the future
@@ -47,6 +48,7 @@ const users = [
    {
       email: "kal@superman.com",
       password: "0F5F608196BD2B2172C562591B414941",
+      fakepassword: "supermaniscool",
       characters: [
          {
             // allows for multiple characters in the future
