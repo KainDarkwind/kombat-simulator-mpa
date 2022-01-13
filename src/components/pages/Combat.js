@@ -11,15 +11,13 @@ import { connect } from "react-redux";
 // import axios from "axios";
 // import actions from "../../store/actions";
 
-const character = users[0].characters[0];
-
 class Combat extends React.Component {
    constructor(props) {
       super(props);
       console.log("this is current opponent", this.props.currentOpponent);
 
       this.state = {
-         character: character,
+         character: this.props.currentUser.characters[0],
          opponent: this.props.currentOpponent,
          combatMessage: "",
          heroCrit: false,
@@ -36,7 +34,7 @@ class Combat extends React.Component {
    };
    resetCombat = () => {
       this.setState(() => ({
-         character: character,
+         character: this.state.character,
          opponent: this.state.opponent,
          combatMessage: "",
          heroCrit: false,
@@ -76,6 +74,7 @@ class Combat extends React.Component {
 
    render() {
       const opponent = this.state.opponent;
+      const character = this.state.character;
       return (
          <>
             <Header />
@@ -241,6 +240,7 @@ class Combat extends React.Component {
 function mapStateToProps(store) {
    return {
       currentOpponent: store.currentOpponent,
+      currentUser: store.currentUser,
    };
 }
 export default connect(mapStateToProps)(Combat);

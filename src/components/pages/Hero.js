@@ -2,18 +2,18 @@ import React from "react";
 import Header from "../ui/Header";
 import Navigation from "../ui/Navigation";
 import ActionInfoList from "../ui/ActionInfoList";
-import users from "../../mock data/users";
+
 import classnames from "classnames";
+import { connect } from "react-redux";
 
-const character = users[0].characters[0];
-const characterActions = character.actions;
-
-export default class Hero extends React.Component {
+class Hero extends React.Component {
    constructor(props) {
       super(props);
       console.log("In Hero component");
       this.state = {
          isHoveredOver: false,
+         character: this.props.currentUser.characters[0],
+         characterActions: this.props.currentUser.characters[0].actions,
       };
    }
 
@@ -23,6 +23,8 @@ export default class Hero extends React.Component {
    }
 
    render() {
+      const character = this.props.currentUser.characters[0];
+      const characterActions = character.actions;
       return (
          <div>
             <Header />
@@ -34,7 +36,7 @@ export default class Hero extends React.Component {
                   <div className="col-6">
                      <img
                         src={character.image}
-                        alt="Female Hero"
+                        alt={character.name}
                         className="img-fluid"
                      />
                   </div>
@@ -104,3 +106,10 @@ export default class Hero extends React.Component {
       );
    }
 }
+
+function mapStateToProps(store) {
+   return {
+      currentUser: store.currentUser,
+   };
+}
+export default connect(mapStateToProps)(Hero);

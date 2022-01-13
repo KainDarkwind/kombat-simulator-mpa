@@ -4,8 +4,11 @@ import classnames from "classnames";
 import hash from "object-hash";
 import { v4 as getUuid } from "uuid";
 import { Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import axios from "axios";
+import actions from "../../store/actions";
 
-export default class Login extends React.Component {
+class Login extends React.Component {
    constructor(props) {
       super(props);
       console.log("In login component");
@@ -15,7 +18,27 @@ export default class Login extends React.Component {
          hasEmailError: false,
          passwordError: "",
          hasPasswordError: false,
+         validUsers: [],
+         isValidUser: false,
       };
+   }
+
+   componentDidMount() {
+      axios
+         .get(
+            "https://raw.githubusercontent.com/KainDarkwind/kombat-simulator-mpa/main/src/mock%20data/users.json"
+         )
+         .then((res) => {
+            // handle success
+            console.log(res.data);
+            const validUsers = res.data;
+            this.setState({ validUsers });
+            // console.log(this.state.validUsers[0]);
+         })
+         .catch((error) => {
+            // handle error
+            console.log(error);
+         });
    }
 
    async setEmailState(emailInput) {
@@ -69,7 +92,6 @@ export default class Login extends React.Component {
          this.state.hasEmailError === false &&
          this.state.hasPasswordError === false
       ) {
-         <Navigate to="/create-answer" />;
          const user = {
             id: getUuid(),
             email: emailInput,
@@ -82,6 +104,45 @@ export default class Login extends React.Component {
       //   if (emailInput.length === 0)
       //      this.setState({ emailError: "Please enter your email address." });
    }
+
+   /*
+when the login button is clicked:
+
+user object is created.
+compare user.email to db.email, change state to foundemail
+compare user.password to db.fakeemail, change state to foundpassword
+if foundemail and foundpassword are true, change state to founduser
+if founduser, change state of userIndex to index of user.
+run store_current_user
+navigate
+
+*/
+
+   getAndStoreValidUser() {
+      const emailInput = document.getElementById("login-email-input").value;
+
+      const validEmails = this.state.validUsers.filter((user) => {
+         return user.email === emailInput;
+      });
+      if (validEmails.length > 0) {
+         console.log("it's valid yall", validEmails[0]);
+         this.props.dispatch({
+            type: actions.STORE_CURRENT_USER,
+            payload: validEmails[0],
+         });
+         this.setState({ isValidUser: true });
+      } else {
+         console.log("big old dud.");
+         return "";
+      }
+   }
+
+   // storeUser() {
+   //    this.props.dispatch({
+   //       type: actions.STORE_CURRENT_USER,
+   //       payload: ,
+   //    });
+   // }
 
    render() {
       return (
@@ -120,6 +181,7 @@ export default class Login extends React.Component {
                         {this.state.passwordError}
                      </p>
                   )}
+                  {this.state.isValidUser && <Navigate to="/hero" />}
 
                   <button
                      id="login-button"
@@ -132,6 +194,7 @@ export default class Login extends React.Component {
                           "
                      onClick={() => {
                         this.validateAndCreateUser();
+                        this.getAndStoreValidUser();
                      }}
                   >
                      Log in
@@ -142,3 +205,8 @@ export default class Login extends React.Component {
       );
    }
 }
+
+function mapStateToProps(store) {
+   return { user: store.currentUser };
+}
+export default connect(mapStateToProps)(Login);

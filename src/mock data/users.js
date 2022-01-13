@@ -54,7 +54,7 @@ const users = [
             // allows for multiple characters in the future
             name: "He-ro",
             level: 10,
-            image: "hero-male.jpg",
+            image: "hero-male.webp",
             hp: 160, //hit points
             ap: 11, //action points
             pwr: 11, //power modifies damage
