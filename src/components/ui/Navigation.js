@@ -15,10 +15,6 @@ export default function Navigation() {
                   <img src={swordIcon2} width="28px" alt="sword icon2" />
                   Arena
                </Link>
-               <Link to="/combat" className="btn btn-link mt-5 mr-5">
-                  <img src={swordIcon2} width="28px" alt="sword icon2" />
-                  Combat
-               </Link>
             </div>
          </div>
          <hr className="font-weight-bold" />

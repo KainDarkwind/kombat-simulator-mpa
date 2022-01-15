@@ -2,7 +2,7 @@ import React from "react";
 
 import Header from "../ui/Header";
 import Navigation from "../ui/Navigation";
-import users from "../../mock data/users";
+
 // import opponents from "../../mock data/opponents";
 // import { getRandomInt } from "../../utils/helpers";
 import CombatButton from "../ui/CombatButton";
@@ -34,8 +34,8 @@ class Combat extends React.Component {
    };
    resetCombat = () => {
       this.setState(() => ({
-         character: this.state.character,
-         opponent: this.state.opponent,
+         character: this.props.currentUser.characters[0],
+         opponent: this.props.currentOpponent,
          combatMessage: "",
          heroCrit: false,
          isHeroDead: false,
